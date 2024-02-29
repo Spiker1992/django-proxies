@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'blog.apps.BlogConfig',
+    'blog_state_pattern.apps.BlogStatePatternConfig',
     'delivery_progress.apps.DeliveryProgressConfig',
 ]
 
