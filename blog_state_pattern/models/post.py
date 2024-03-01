@@ -26,18 +26,7 @@ class Post(models.Model):
             self.__class__ = proxy_class
 
         return self
-    
-    def transition_to(self, state: str):
-        if state not in self.ALLOWED_TRANSITIONS:
-            raise ValueError(f"Cannot transition to '{state}'")
-        
-        self.status = state
-        self.save()
 
-        self._resolve_proxy_model()
-
-        return self
-    
     @property
     def __status_changed(self) -> bool:
         current_status = Mapper.reverse_get(self.__class__)
