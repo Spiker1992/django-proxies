@@ -31,3 +31,11 @@ class TestTransitions(TestCase):
 
         assert  isinstance(post, ReadyForReviewPost)
 
+    def test_disable_status_change_when_no_transitions_exist(self):
+        post: Post = PostFactory.create(status=STATUS_PUBLISHED)
+        post.status = STATUS_READY_FOR_REVIEW
+
+        expeced_error_message = "ValueError: Invalid status: published. Valid statuses are: []"
+
+        with self.assertRaises(ValueError, msg=expeced_error_message):
+            post.save()
