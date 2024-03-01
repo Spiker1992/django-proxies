@@ -37,3 +37,22 @@ class Post(models.Model):
         self._resolve_proxy_model()
 
         return self
+    
+    @property
+    def __status_changed(self) -> bool:
+        current_status = Mapper.reverse_get(self.__class__)
+        return  current_status != self.status 
+
+    def clean(self):
+        if self.__status_changed and self.status not in self.ALLOWED_TRANSITIONS:
+            raise ValueError(f"Invalid status: {self.status}. Valid statuses are: {[values for values in self.ALLOWED_TRANSITIONS]}")
+        
+        return super().clean()
+
+    def save(self, *args, **kwargs):
+        self.full_clean()
+
+        super().save(*args, **kwargs)
+
+        if self.__status_changed:
+            self._resolve_proxy_model()

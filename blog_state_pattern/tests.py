@@ -33,7 +33,25 @@ class TestTransitions(TestCase):
     
     def test_invalid_transition(self):
         post: Post = PostFactory.create()
+        post.status = STATUS_PUBLISHED
 
-        with self.assertRaises(ValueError):
-            post.transition_to(STATUS_PUBLISHED)
+        expeced_error_message = "ValueError: Invalid status: published. Valid statuses are: ['ready_for_review']"
+
+        with self.assertRaises(ValueError, msg=expeced_error_message):
+            post.save()
+
+
+    def test_dont_change_transition(self):
+        post: Post = PostFactory.create()
+        post.save()
+
+
+        assert  isinstance(post, DraftPost)
+
+    def test_successful_transition(self):
+        post: Post = PostFactory.create()
+        post.status = STATUS_READY_FOR_REVIEW
+        post.save()
+
+        assert  isinstance(post, ReadyForReviewPost)
 
