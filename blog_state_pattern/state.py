@@ -8,7 +8,7 @@ class Mapper:
         return cls.instance
     
     @classmethod
-    def reverse_get(cls, key):
+    def resolve_proxy_status(cls, key):
         reversed = {v: k for k, v in cls.state.items()}
 
         return reversed.get(key)

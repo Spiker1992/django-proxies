@@ -29,7 +29,7 @@ class Post(models.Model):
 
     @property
     def __status_changed(self) -> bool:
-        current_status = Mapper.reverse_get(self.__class__)
+        current_status = Mapper.resolve_proxy_status(self.__class__)
         return  current_status != self.status 
 
     def clean(self):
