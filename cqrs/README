@@ -1,1 +1,8 @@
-how can we restrict use of models to to prevent models being used for both read and write
+Aim is to answer the following question
+- have we use the same model for both read and writes?
+
+My thinking:
+- can we block saves on a model
+- can we conditionally enable it
+- can we apply some other techniques? maybe separate models?
+- can we setup separate databases  for read and write?
