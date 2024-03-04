@@ -39,7 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'blog.apps.BlogConfig',
     'blog_state_pattern.apps.BlogStatePatternConfig',
+    'blog_control_data.apps.BlogControlDataConfig',
     'delivery_progress.apps.DeliveryProgressConfig',
+    'cqrs.apps.CqrsConfig',
 ]
 
 MIDDLEWARE = [
