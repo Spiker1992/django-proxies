@@ -1,0 +1,4 @@
+Notes:
+- Each app evolves around a specific subject.
+- Run migrations using `python manage.py migrate`
+- Run tests using `python manage.py test <app_dir>`
