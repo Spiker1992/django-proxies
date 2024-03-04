@@ -15,3 +15,13 @@ class TestTransitions(TestCase):
 
         with self.assertRaises(Exception, msg="This model is ready only"):
             post.delete()
+
+    def test_allow_writes_if_writes_are_whitelisted(self):
+        post: Post = Post()
+        post.writable()
+
+        post.title = "Hello World"
+        post.save()
+
+        post.refresh_from_db()
+        assert post.title == "Hello World"
