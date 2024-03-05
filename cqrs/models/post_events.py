@@ -17,9 +17,8 @@ class PostEvents(models.Model):
         super().save(*args, **kwargs)
 
 class CreatedPostEvent(PostEvents):
-    event_type = "created_post"
-
     def clean(self):
+        self.event_type = "created_post"
         try:
             CreatePost(**self.event_payload)
         except ValidationError as e:

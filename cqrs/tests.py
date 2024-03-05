@@ -63,3 +63,6 @@ class TestCreateEvent(TestCase):
         post_event.event_payload =  { "title": "Hello World"}
         
         post_event.save()
+        post_event.refresh_from_db()
+        
+        assert post_event.event_type == "created_post"
