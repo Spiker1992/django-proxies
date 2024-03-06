@@ -26,22 +26,28 @@ class Post(models.Model):
             self.__class__ = proxy_class
 
         return self
-
-    @property
-    def __status_changed(self) -> bool:
+ 
+    def __status_changed(self, new_status: str) -> bool:
         current_status = Mapper.resolve_proxy_status(self.__class__)
-        return  current_status != self.status 
+        return  current_status != new_status 
 
-    def clean(self):
-        if self.__status_changed and self.status not in self.ALLOWED_TRANSITIONS:
-            raise ValueError(f"Invalid status: {self.status}. Valid statuses are: {[values for values in self.ALLOWED_TRANSITIONS]}")
+    # def clean(self):
+    #     if self.__status_changed(self.status) and self.status not in self.ALLOWED_TRANSITIONS:
+    #         raise ValueError(f"Invalid status: {self.status}. Valid statuses are: {[values for values in self.ALLOWED_TRANSITIONS]}")
         
-        return super().clean()
+    #     return super().clean()
 
     def save(self, *args, **kwargs):
-        self.full_clean()
+        # self.full_clean()
 
         super().save(*args, **kwargs)
 
         if self.__status_changed:
             self._resolve_proxy_model()
+
+    def __setattr__(self, __name: str, __value: Any) -> None:
+        if __name == "status" and self.__status_changed(__value) and __value not in self.ALLOWED_TRANSITIONS:
+            raise ValueError(f"Invalid status: {__value}. Valid statuses are: {[values for values in self.ALLOWED_TRANSITIONS]}")
+        
+        super().__setattr__(__name, __value)
+            
