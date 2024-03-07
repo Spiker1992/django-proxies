@@ -1,23 +1,6 @@
-from dataclasses import dataclass
-from typing import Any, Optional
-from django.core.exceptions import ValidationError
-from django.utils.deconstruct import deconstructible
+from typing import Any
 from django.db import models
-from pydantic import BaseModel
-
-
-@dataclass
-class Empty:
-    ...
-
-@dataclass
-class PostCreated:
-    title: str
-
-@dataclass
-class PostUpdated:
-    content: str
-    title: str
+from cqrs.dataclasses import Empty, PostCreated, PostUpdated
 
 MAPPER = {}
 

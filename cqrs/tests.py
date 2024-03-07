@@ -2,8 +2,9 @@
 import pytest
 from django.test import TestCase
 from cqrs.aggregate import PostAggregate
+from cqrs.dataclasses import PostCreated
 from cqrs.models import CreatedPostEvent, Post
-from cqrs.models.post_events import PostCreated, PostEvents, PostUpdatedEvent, ReadyForReviewEvent
+from cqrs.models.post_events import PostEvents, PostUpdatedEvent, ReadyForReviewEvent
 
 @pytest.mark.django_db
 class TestReadModel(TestCase):
