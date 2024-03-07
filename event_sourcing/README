@@ -1,0 +1,8 @@
+Aim is to answer the following question
+- can we use proxy models to  encapsulate certain events?
+
+
+What happened:
+- created a simple aggregate which can create an event
+- events themselves are proxy models
+- proxy models can have event_payload of specific type only

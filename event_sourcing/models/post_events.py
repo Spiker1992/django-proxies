@@ -1,6 +1,6 @@
 from typing import Any
 from django.db import models
-from cqrs.dataclasses import Empty, PostCreated, PostUpdated
+from event_sourcing.dataclasses import Empty, PostCreated, PostUpdated
 
 MAPPER = {}
 

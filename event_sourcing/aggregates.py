@@ -1,7 +1,7 @@
 from dataclasses import asdict
-from cqrs.dataclasses import PostCreated
-from cqrs.models import CreatedPostEvent
-from cqrs.models.post_events import PostEvents, PostUpdatedEvent, ReadyForReviewEvent
+from event_sourcing.dataclasses import PostCreated
+from event_sourcing.models import CreatedPostEvent
+from event_sourcing.models.post_events import PostEvents, PostUpdatedEvent, ReadyForReviewEvent
 
 
 class PostAggregate():
