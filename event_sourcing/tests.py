@@ -1,4 +1,5 @@
 
+import uuid
 import pytest
 from django.test import TestCase
 from event_sourcing.aggregates import PostAggregate
@@ -88,7 +89,7 @@ class TestEventCreation(TestCase):
 @pytest.mark.django_db
 class TestEventStore(TestCase):
     def test_setup_event_store(self):
-        stream_id = 1
+        stream_id = uuid.uuid4()
 
         CreatedPostEvent(stream_id=stream_id, event_payload={"title": "Hello World"}).save()
         PostUpdatedEvent(stream_id=stream_id, event_payload={"title": "Test", "content": "Lorem Ipsum"}).save()
@@ -103,10 +104,9 @@ class TestEventStore(TestCase):
 @pytest.mark.django_db()
 class TestEventAggregate(TestCase):
     def test_setup_aggregate(self):
-        stream_id = 1
+        stream_id = uuid.uuid4()
 
         CreatedPostEvent(stream_id=stream_id, event_payload={"title": "Hello World"}).save()
-        
         PostUpdatedEvent(stream_id=stream_id, event_payload={"title": "Test", "content": "Lorem Ipsum"}).save()
         PostUpdatedEvent(stream_id=stream_id, event_payload={"title": "Test", "content": "Lorem Ipsum 123"}).save()
         ReadyForReviewEvent(stream_id=stream_id, event_payload={}).save()
@@ -114,7 +114,7 @@ class TestEventAggregate(TestCase):
         
         post = PostAggregate()
         post.load(stream_id)
-        
+
         assert len(post.events) == 4
         assert post.ready_for_review == True 
         assert post.title == "Test"
@@ -124,7 +124,7 @@ class TestEventAggregate(TestCase):
     def test_create_post(self):
         post = PostAggregate()
 
-        post.create_post(2, PostCreated(title="Hello World"))
+        post.create_post(PostCreated(title="Hello World"))
 
         assert len(post.events) == 1
         assert post.title == "Hello World"

@@ -7,7 +7,7 @@ MAPPER = {}
 class PostEvents(models.Model):
     event_type = models.CharField(max_length=50)
     event_payload = models.JSONField()
-    stream_id = models.IntegerField()
+    stream_id = models.UUIDField(editable=False, blank=False, null=False)
  
     EVENT_TYPE = None
     PAYLOAD_DATACLASS = None
@@ -41,6 +41,9 @@ class PostEvents(models.Model):
 class CreatedPostEvent(PostEvents):
     EVENT_TYPE = "created_post"
     PAYLOAD_DATACLASS = PostCreated
+
+    PROJECTIONS = []
+    REACTORS = []
 
     class Meta:
         proxy = True 
