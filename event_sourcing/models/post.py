@@ -1,9 +1,11 @@
+import uuid
 from django.db import models
 
-class Post(models.Model):
-    title = models.CharField(max_length=100)
-
+class Projection(models.Model):
     WRITABLE = False
+
+    class Meta:
+        abstract = True
 
     def writable(self):
         self.WRITABLE = True 
@@ -21,4 +23,9 @@ class Post(models.Model):
             return super().delete(args, kwargs)
         
         raise Exception("This model is ready only")
+
+class Post(Projection):
+    title = models.CharField(max_length=100)
+    stream_id = models.UUIDField(editable=False, default=uuid.uuid4(), primary_key=True)
+
     
