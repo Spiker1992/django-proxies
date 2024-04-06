@@ -5,7 +5,8 @@ from django.test import TestCase
 from event_sourcing.aggregates import PostAggregate
 from event_sourcing.dataclasses import PostCreated
 from event_sourcing.models import CreatedPostEvent, Post
-from event_sourcing.models.post_events import PostEvents, PostUpdatedEvent, ReadyForReviewEvent
+from event_sourcing.models.event_streams import PostEvents
+from event_sourcing.models.events import PostUpdatedEvent, ReadyForReviewEvent
 
 @pytest.mark.django_db
 class TestReadModel(TestCase):
@@ -110,8 +111,7 @@ class TestEventAggregate(TestCase):
         PostUpdatedEvent(stream_id=stream_id, event_payload={"title": "Test", "content": "Lorem Ipsum"}).save()
         PostUpdatedEvent(stream_id=stream_id, event_payload={"title": "Test", "content": "Lorem Ipsum 123"}).save()
         ReadyForReviewEvent(stream_id=stream_id, event_payload={}).save()
-        
-        
+
         post = PostAggregate()
         post.load(stream_id)
 

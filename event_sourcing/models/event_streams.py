@@ -1,8 +1,6 @@
 from typing import Any
 from django.db import models
-from event_sourcing.dataclasses import Empty, PostCreated, PostUpdated
-
-MAPPER = {}
+from ..state import  Mapper
 
 class PostEvents(models.Model):
     event_type = models.CharField(max_length=50)
@@ -18,7 +16,7 @@ class PostEvents(models.Model):
         self.resolve_proxy_model()
 
     def resolve_proxy_model(self):
-        proxy_class = MAPPER.get(self.event_type)
+        proxy_class = Mapper.state.get(self.event_type)
 
         if proxy_class:
             self.__class__ = proxy_class
@@ -37,36 +35,3 @@ class PostEvents(models.Model):
 
         super().save(*args, **kwargs)
 
-
-class CreatedPostEvent(PostEvents):
-    EVENT_TYPE = "created_post"
-    PAYLOAD_DATACLASS = PostCreated
-
-    PROJECTIONS = []
-    REACTORS = []
-
-    class Meta:
-        proxy = True 
-
-
-class PostUpdatedEvent(PostEvents):
-    EVENT_TYPE = "post_updated"
-    PAYLOAD_DATACLASS = PostUpdated
-
-    class Meta:
-        proxy = True 
-
-    
-class ReadyForReviewEvent(PostEvents):
-    EVENT_TYPE = "ready_for_review"
-    PAYLOAD_DATACLASS = Empty
-    
-    class Meta:
-        proxy = True 
-
-
-MAPPER = {
-    "created_post": CreatedPostEvent,
-    "post_updated": PostUpdatedEvent,
-    "ready_for_review": ReadyForReviewEvent,
-}

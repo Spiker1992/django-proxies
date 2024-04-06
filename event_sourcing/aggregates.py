@@ -3,7 +3,8 @@ import uuid
 from event_sourcing.dataclasses import PostCreated
 from event_sourcing.models import CreatedPostEvent
 from django.db import models
-from event_sourcing.models.post_events import PostEvents, PostUpdatedEvent, ReadyForReviewEvent
+from event_sourcing.models.event_streams import PostEvents
+from event_sourcing.models.events import PostUpdatedEvent, ReadyForReviewEvent
 
 class Aggregate():
     events = []
@@ -15,6 +16,7 @@ class Aggregate():
 
     def _apply_event(self, event):
         apply_method_name = self.mapper.get(event.__class__)
+
         if apply_method_name:
             self.__getattribute__(apply_method_name)(event)
 
@@ -22,9 +24,9 @@ class Aggregate():
         event.save()
 
     def load(self, stream_id: uuid.UUID):
-        events = list(self.event_store.objects.filter(stream_id=stream_id).all())
+        self.events = list(self.event_store.objects.filter(stream_id=stream_id).all())
 
-        for event in events:
+        for event in self.events:
             self._apply_event(event)
 
 class PostAggregate(Aggregate):
