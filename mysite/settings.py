@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'blog_control_data.apps.BlogControlDataConfig',
     'delivery_progress.apps.DeliveryProgressConfig',
     'event_sourcing.apps.EventSourcingConfig',
+    'cqrs_example.apps.CqrsExampleConfig',
 ]
 
 MIDDLEWARE = [
