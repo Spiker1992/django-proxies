@@ -3,7 +3,6 @@ from cqrs_example.services import createBlogPost, retrieveBlogPost
 import pytest
 from django.test import TestCase
 from cqrs_example.factories import PostFactory
-from cqrs_example.models import Post
 
 @pytest.mark.django_db
 class TestCreatePost(TestCase):

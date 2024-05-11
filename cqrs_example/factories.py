@@ -1,6 +1,6 @@
 import factory
-from . import models
+from cqrs_example.models.post import Post
 
 class PostFactory(factory.django.DjangoModelFactory):
     class Meta:
-        model = models.Post
+        model = Post
